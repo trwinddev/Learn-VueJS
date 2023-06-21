@@ -1,23 +1,27 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+defineProps({
+  currentTab: {
+    default: 1,
+  },
+  showing: {
+    default: true,
+  },
+});
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="greetings">
+    <a href="#" @click.prevent="currentTab = 1">Tab 1</a>
+    <a href="#" @click.prevent="currentTab = 2">Tab 2</a>
+    <a href="#" @click.prevent="currentTab = 3">Tab 3</a>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div v-show="currentTab == 1">Noi dung 1</div>
+    <div v-show="currentTab == 2">Noi dung 2</div>
+    <div v-show="currentTab == 3">Noi dung 3</div>
+  </div>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <button @click="showing = !showing">An/Hien</button>
+  <div v-show="showing">Noi dung an hien</div>
 </template>
 
 <style scoped>
