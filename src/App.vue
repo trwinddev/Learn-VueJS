@@ -1,89 +1,98 @@
-<script setup>
-defineProps({
-  currentTab: {
-    default: 1,
-  },
-  showing: {
-    default: true,
-  },
-});
-</script>
-
 <template>
-  <div class="greetings">
-    <a href="#" @click.prevent="currentTab = 1">Tab 1</a>
-    <a href="#" @click.prevent="currentTab = 2">Tab 2</a>
-    <a href="#" @click.prevent="currentTab = 3">Tab 3</a>
-
-    <div v-show="currentTab == 1">Noi dung 1</div>
-    <div v-show="currentTab == 2">Noi dung 2</div>
-    <div v-show="currentTab == 3">Noi dung 3</div>
+  <div>
+    <span>{{ name }}</span>
+    <br />
+    <input type="text" v-model="name" />
+    <button @click="name = 'linh'">Click</button>
+    <br />
+    <input type="checkbox" v-model="acceptTOS" />
+    <br />
+    <select name="city" id="city" v-model="city">
+      <option value="hn">Ha Noi</option>
+      <option value="hcm">Ho Chi Minh</option>
+      <option value="dn">Da Nang</option>
+    </select>
+    <button @click="console.log(city)">Xem</button>
+    <br />
+    <button @click="showName = true">Show</button>
+    <button @click="showName = false">Hide</button>
+    <div v-show="showName">ngo trong phong</div>
+    <br />
+    <button @click="showAge = true">Show</button>
+    <button @click="showAge = false">Hide</button>
+    <div v-if="showAge">21</div>
+    <div v-else>****</div>
+    <br />
+    <input type="text" v-model="addStudent" />
+    <button @click="students.push(addStudent)">Add</button>
+    <ul>
+      <li v-for="(student, index) in students" :key="index">
+        {{ student }} <button @click="students.splice(index, 1)">Xoa</button>
+      </li>
+    </ul>
+    <br />
+    <!-- <input type="text" v-bind:disabled="locked" /> -->
+    <input type="text" :disabled="locked" />
+    <button @click="locked = !locked">Lock/Unlock</button>
+    <br />
+    <input :type="typePass" />
+    <button @click="typePass = typePass === 'text' ? 'password' : 'text'">
+      Show/Hide
+    </button>
+    <br />
+    <span
+      class="course"
+      v-for="(language, index) in languages"
+      :key="index"
+      :class="{ daChon: language.selected }"
+      @click="language.selected = !language.selected"
+      >{{ language.name }}</span
+    >
   </div>
-
-  <button @click="showing = !showing">An/Hien</button>
-  <div v-show="showing">Noi dung an hien</div>
+  <Sidebar></Sidebar>
+  <Person
+    v-for="(person, index) in persons"
+    :name="person"
+    :key="index"
+  ></Person>
 </template>
 
+<script>
+import Person from "./components/Person.vue";
+import Sidebar from "./components/Sidebar.vue";
+export default {
+  components: { Sidebar, Person },
+  data() {
+    return {
+      name: "phong",
+      acceptTOS: true,
+      city: "hn",
+      showName: true,
+      showAge: true,
+      addStudent: "",
+      students: ["phong", "tuan", "phuc"],
+      locked: true,
+      typePass: "text",
+      languages: [
+        { name: "HTML", selected: false },
+        { name: "CSS", selected: false },
+        { name: "JS", selected: false },
+        { name: "PHP", selected: false },
+      ],
+      persons: ["phong", "phuc", "tuan"],
+    };
+  },
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.course {
+  border: 1px solid #333333;
+  margin-right: 10px;
+  cursor: pointer;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+span.daChon {
+  background-color: red;
+  color: white;
 }
 </style>
