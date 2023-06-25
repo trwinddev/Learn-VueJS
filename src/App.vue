@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <span>{{ name }}</span>
     <br />
     <input type="text" v-model="name" />
@@ -31,7 +31,7 @@
       </li>
     </ul>
     <br />
-    <!-- <input type="text" v-bind:disabled="locked" /> -->
+    <input type="text" v-bind:disabled="locked" />
     <input type="text" :disabled="locked" />
     <button @click="locked = !locked">Lock/Unlock</button>
     <br />
@@ -48,45 +48,91 @@
       @click="language.selected = !language.selected"
       >{{ language.name }}</span
     >
-  </div>
-  <Sidebar></Sidebar>
-  <Person
+  </div> -->
+  <!-- <Sidebar></Sidebar> -->
+  <!-- <Person
     v-for="(person, index) in persons"
     :name="person"
     :key="index"
-  ></Person>
+  ></Person> -->
+  <div>
+    <!-- <span v-if="loading">Loading...</span>
+    <users v-else v-for="user in users" :key="user.id" :user="user"></users> -->
+    <button @click="showing = !showing">Click</button>
+    <input type="text" id="abc" ref="abc" />
+    <button @click="abc()">Click here</button>
+  </div>
 </template>
 
 <script>
-import Person from "./components/Person.vue";
-import Sidebar from "./components/Sidebar.vue";
+// import Person from "./components/Person.vue";
+// import Sidebar from "./components/Sidebar.vue";
+// export default {
+//   components: { Sidebar, Person },
+//   data() {
+//     return {
+//       name: "phong",
+//       acceptTOS: true,
+//       city: "hn",
+//       showName: true,
+//       showAge: true,
+//       addStudent: "",
+//       students: ["phong", "tuan", "phuc"],
+//       locked: true,
+//       typePass: "text",
+//       languages: [
+//         { name: "HTML", selected: false },
+//         { name: "CSS", selected: false },
+//         { name: "JS", selected: false },
+//         { name: "PHP", selected: false },
+//       ],
+//       persons: ["phong", "phuc", "tuan"],
+//     };
+//   },
+//   beforeUpdate() {
+//     console.log("before update");
+//   },
+// };
+
+// import Users from "./components/Users.vue";
 export default {
-  components: { Sidebar, Person },
+  // components: { Users },
   data() {
     return {
-      name: "phong",
-      acceptTOS: true,
-      city: "hn",
-      showName: true,
-      showAge: true,
-      addStudent: "",
-      students: ["phong", "tuan", "phuc"],
-      locked: true,
-      typePass: "text",
-      languages: [
-        { name: "HTML", selected: false },
-        { name: "CSS", selected: false },
-        { name: "JS", selected: false },
-        { name: "PHP", selected: false },
-      ],
-      persons: ["phong", "phuc", "tuan"],
+      users: [],
+      loading: false,
+      showing: false,
     };
+  },
+  mounted() {
+    this.loading = true;
+    fetch("https://64971fa183d4c69925a36e23.mockapi.io/users")
+      .then((res) => res.json())
+      .then((users) => {
+        this.users = users;
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  },
+  methods: {
+    // Ham xu li
+    abc() {
+      // var i = document.getElementById("abc");
+      var i = this.$refs.abc;
+      console.log(i);
+    },
+  },
+  watch: {
+    showing: function () {
+      console.log("Showing changed");
+    },
   },
 };
 </script>
 
 <style scoped>
-.course {
+/* .course {
   border: 1px solid #333333;
   margin-right: 10px;
   cursor: pointer;
@@ -94,5 +140,5 @@ export default {
 span.daChon {
   background-color: red;
   color: white;
-}
+} */
 </style>
