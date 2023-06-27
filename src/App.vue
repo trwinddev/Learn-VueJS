@@ -41,15 +41,17 @@ export default {
 
 <template>
   <div>
-    <Modal>
-      <template #header>
+    <Modal @closed="modalClosed" v-show="showModal">
+      <!-- <template #header>
         <h1>Day la header</h1>
       </template>
       <template #content>
         <h1>Day la noi dung</h1>
         <h2>Noi dung khac</h2>
-      </template>
+      </template> -->
     </Modal>
+    <hr />
+    <button @click="showModal = !showModal">Show/Hide</button>
   </div>
 </template>
 
@@ -57,8 +59,19 @@ export default {
 import Modal from "./components/Modal.vue";
 export default {
   components: { Modal },
+  provide: {
+    school: "Phenikaa",
+  },
   data() {
-    return {};
+    return {
+      showModal: false,
+    };
+  },
+  methods: {
+    modalClosed(data) {
+      console.log(data);
+      console.log("Modal da dong");
+    },
   },
 };
 </script>
