@@ -41,31 +41,74 @@ export default {
 
 <template>
   <div>
-    <Modal @closed="modalClosed" v-show="showModal">
-      <!-- <template #header>
+    <!-- <Modal @closed="modalClosed" v-show="showModal"> -->
+    <!-- <template #header>
         <h1>Day la header</h1>
       </template>
       <template #content>
         <h1>Day la noi dung</h1>
         <h2>Noi dung khac</h2>
       </template> -->
-    </Modal>
+    <!-- </Modal> -->
+    <!-- <hr /> -->
+    <!-- <button @click="showModal = !showModal">Show/Hide</button>
+    <div>
+      <span>{{ phoneModel }}</span>
+    </div> -->
+    <div v-for="(product, i) in products" :key="i">
+      {{ product.name }} - {{ product.price }}
+      <button @click="boughtProducts.push(product)">Mua</button>
+    </div>
     <hr />
-    <button @click="showModal = !showModal">Show/Hide</button>
+    <div v-for="(product, i) in boughtProducts" :key="i">
+      {{ product.name }}
+    </div>
+    <div>Total: {{ total }}</div>
   </div>
 </template>
 
 <script>
-import Modal from "./components/Modal.vue";
+// import Modal from "./components/Modal.vue";
 export default {
-  components: { Modal },
+  // components: { Modal },
   provide: {
     school: "Phenikaa",
   },
   data() {
     return {
+      boughtProducts: [],
       showModal: false,
+      student: {
+        name: "phong",
+        phone: {
+          color: "black",
+          made: {
+            model: "apple",
+          },
+        },
+      },
+      products: [
+        { name: "iphone 4", price: 1 },
+        { name: "iphone 5", price: 2 },
+        { name: "iphone 6", price: 2 },
+      ],
     };
+  },
+  // watch: {
+  //   boughtProducts: {
+  //     handler: function () {
+  //       this.total = this.boughtProducts.reduce((t, p) => t + p.price, 0);
+  //     },
+  //     deep: true,
+  //   },
+  // },
+  computed: {
+    phoneModel() {
+      return this.student.phone.made.model;
+    },
+    total() {
+      return this.boughtProducts.reduce((t, p) => t + p.price, 0);
+    },
   },
   methods: {
     modalClosed(data) {
